@@ -1,0 +1,106 @@
+class-map match-any QOS-BRONZE-QGRP
+match qos-group 1
+class-map match-any QOS-GOLD-QGRP
+match qos-group 4
+class-map match-any QOS-SILVER-QGRP
+match qos-group 3
+class-map match-any QOS-PLATINUM-QGRP
+match qos-group 6
+class-map match-any RJIL-ENT-IPC-9190052610-1634-PARENT
+match vlan 1634
+ !
+class-map match-any QOS-PLATINUM-COS
+match cos 6 7
+!
+policy-map RJIL-ENT-IPC-9190052610-1634-CHILD-IN
+class QOS-PLATINUM-COS
+  police cir 5242880 bc 937500
+   conform-action set-qos-transmit 6
+   conform-action set-mpls-exp-imposition-transmit 6   
+   exceed-action drop 
+!
+policy-map RJIL-ENT-UNI-IN
+class RJIL-ENT-IPC-9190052610-1634-PARENT
+ police 5242880
+  service-policy RJIL-ENT-IPC-9190052610-1634-CHILD-IN
+policy-map RJIL-ENT-IPC-9190052610-1634-CHILD-OUT
+class QOS-PLATINUM-QGRP
+  priority level 1
+  police cir 5242880
+!
+policy-map RJIL-ENT-UNI-OUT
+class RJIL-ENT-IPC-9190052610-1634-PARENT
+  shape average 5242880
+   service-policy RJIL-ENT-IPC-9190052610-1634-CHILD-OUT
+!
+!
+vrf definition RJIL-VRF-IP-CENTRIX
+description *** FOR SIP SERVICES ***
+rd 10.64.229.240:64
+route-target export 64913:1$AG3REGIONNNVALUE$
+route-target import 64913:1$AG3REGIONNNVALUE$01
+!
+address-family ipv4
+exit-address-family
+!
+ethernet ring g8032 ECR_Major
+exclusion-list vlan-ids 123,200,234,250,501-502,522,601-602,621-622,668-669
+port0 interface GigabitEthernet0/0/8
+port1 interface TenGigabitEthernet0/0/27
+instance 1
+profile 30
+inclusion-list vlan-ids 408,883,1634
+aps-channel
+port0 service instance 408
+port1 service instance 408
+interface GigabitEthernet0/0/8
+no shutdown
+service-policy input RJIL-ENT-UNI-IN
+service-policy output RJIL-ENT-UNI-OUT
+service instance trunk 1 ethernet
+encapsulation dot1q 883,1634
+rewrite ingress tag pop 1 symmetric
+bridge-domain from-encapsulation
+!
+interface TenGigabitEthernet0/0/27
+no shutdown
+service instance trunk 2 ethernet
+encapsulation dot1q 883,1634
+rewrite ingress tag pop 1 symmetric
+bridge-domain from-encapsulation
+
+!
+interface BDI1634
+no shutdown
+description # UNI-ENT-IP Centrex-TFNH-5 Mbps-111010#
+ip mtu 9216
+vrf forwarding RJIL-VRF-IP-CENTRIX
+no ip address
+no ip redirects
+no ip unreachables
+no ip proxy-arp
+load-interval 30
+ip address 100.64.128.113 255.255.255.248
+vrrp 56 address-family ipv4
+  timers advertise 3000
+  priority 110
+  preempt delay minimum 10
+address 100.64.128.115 primary
+exit-vrrp
+!
+ip access-list standard RJIL-ENT-VPN-SIP-IPv4-IN
+permit 100.64.128.112 0.0.0.7
+!
+route-map RJIL-ENT-VPN-SIP-IPv4-IN permit 10
+description # Priority for SIP VRF #
+match ip address RJIL-ENT-VPN-SIP-IPv4-IN
+set local-preference 200
+!
+router bgp 55836
+address-family ipv4 vrf RJIL-VRF-IP-CENTRIX
+import path selection all
+import path limit 4
+redistribute connected route-map RJIL-ENT-VPN-SIP-IPv4-IN
+redistribute static
+exit-address-family
+!

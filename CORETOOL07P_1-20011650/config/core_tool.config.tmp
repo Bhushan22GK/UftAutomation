@@ -1,0 +1,9 @@
+hci.http.url=http\://10.135.4.74\:9100
+login=T37300211
+default_currency=EUR
+country=US
+frame.height=700
+appearance_flavor=new
+language=EN
+xml.verbose=false
+frame.width=900

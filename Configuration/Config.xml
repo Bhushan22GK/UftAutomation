@@ -1,0 +1,5 @@
+<Configuration>
+	<sRelPath>C:</sRelPath >
+	<bSendEmail>true</bSendEmail>
+	<bCaptureScreenshots>true</bCaptureScreenshots>
+</Configuration>

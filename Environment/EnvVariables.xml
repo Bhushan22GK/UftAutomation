@@ -1,0 +1,38 @@
+<Environment>
+	<Variable>
+		<Name>sRelPath</Name>
+		<Value>C:</Value>
+	</Variable>
+	
+	<Variable>
+		<Name>TestExecutionSnapshotFileLocation</Name>
+		<Value>C:\RIL_TTAF\Log_Files\Detail_Logs\Test_Execution_Results\Snapshots\</Value>
+	</Variable>	
+	<Variable>
+		<Name>TestExecutionLogFilePath</Name>
+		<Value>C:\RIL_TTAF\Log_Files\Detail_Logs\Test_Execution_Results\Logs\</Value>
+	</Variable>
+	<Variable>
+		<Name>RQMResultUpdateTestLogFilePath</Name>
+		<Value>C:\RIL_TTAF\Log_Files\Detail_Logs\RQM_Result_Update\Logs\</Value>
+	</Variable>	
+	<Variable>
+		<Name>RQMResultSnapshotFileLocation</Name>
+		<Value>C:\RIL_TTAF\Log_Files\Detail_Logs\RQM_Result_Update\Snapshots\</Value>
+	</Variable>	
+
+	<Variable>
+		<Name>TestDataInputSheet</Name>
+		<Value>UFT_RQM_Report_Inputsheet.xls</Value>
+	</Variable>
+	<Variable>
+		<Name>TestDataInputSheetLocation</Name>
+		<Value>C:\RIL_TTAF\Input\</Value>
+	</Variable>	
+	<Variable>
+		<Name>RQMResultUpdateDashBoardReportLocation</Name>
+		<Value>C:\RIL_TTAF\Log_Files\DashboardReport\</Value>
+	</Variable>
+</Environment>
+
+

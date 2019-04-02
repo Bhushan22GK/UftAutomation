@@ -1,0 +1,20 @@
+	<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://rjil.com/ericsson/inventory/datastructure">
+	   <soapenv:Header/>
+	   <soapenv:Body>
+	      <dat:deActivateCPEAndDeleteCustomerRequest>
+	         <dat:customerID>Cust_id</dat:customerID>
+	         <dat:connectivityType>FTTH</dat:connectivityType>
+	         <dat:serviceDetail>
+	            <dat:serviceId>serv_id</dat:serviceId>
+	            <dat:serviceType>Z0005</dat:serviceType>
+	            <dat:cpeInfoList>
+	               <!--Zero or more repetitions:-->
+	               <dat:cpeInfo>
+	                  <dat:cpeType>ONT</dat:cpeType>
+	                  <dat:cpeSerialNumber>serial_num</dat:cpeSerialNumber>
+	               </dat:cpeInfo>
+	            </dat:cpeInfoList>
+	         </dat:serviceDetail>
+	      </dat:deActivateCPEAndDeleteCustomerRequest>
+	   </soapenv:Body>
+	</soapenv:Envelope>

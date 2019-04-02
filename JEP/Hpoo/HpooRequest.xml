@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <FTTXAsyncUpdate>
+         <!--Optional:-->
+         <correlationID>123456</correlationID>
+         <!--Optional:-->
+         <status>1</status>
+      </FTTXAsyncUpdate>
+   </soapenv:Body>
+</soapenv:Envelope>

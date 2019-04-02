@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+Template of Allowance Definition Table
+
+Use:
+It is the template of mapping table modeling the Allowance Definition Table. Mapping table having this format will be
+managed by SAP CRM as an allowance definition table and not as a normal mapping table.
+
+Prerequisite:
+It must exists in the catalog in which you plan to create an allowance definition table an allowance definition table class.
+If not, create an allowance definition table class as described by the template 'allowance_definition_table_class.xml'.
+
+Procedure:
+1 - Update the property ${catalog} with the name of the catalog in which you want to import this mapping table. This catalog
+must contain an allowance definition table class.
+2 - Update the ${allowanceDefinitionTableClass} with the name of an allowance definition table class.
+2 - Log on the core tool and open this mapping table from this file (File > Open > From File)
+3 - Change the name of this mapping table and add allowance definitions as rows if necessary.
+Note: Do not remove the predefined additional information.
+4 - Save the mapping table.
+
+-->
+<objectSet version="4.5.4.0">
+  <mappingTable id="ALLOWANCE_DEFINITION_TABLE" owner="${catalog}" mappingTableClassId="${allowanceDefinitionTableClass}">
+    <additionalInfo name="SAP_DATA_TYPE">
+      <description><![CDATA[It is an allowance definition table]]></description>
+      <string value="AllowanceDefinition"/>
+    </additionalInfo>
+  </mappingTable>
+</objectSet>

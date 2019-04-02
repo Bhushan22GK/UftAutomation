@@ -1,0 +1,42 @@
+configure qos shaper-profile "RJIL-ENT-IPC-9190052610-1634"
+bandwidth cir 5024 cbs 64000
+exit all
+configure qos policer-profile "RJIL-ENT-IPC-9190052610-1634"
+bandwidth cir 5056 cbs  64000 eir 0 ebs 0
+exit all
+configure qos queue-group-profile "RJIL-ENT-IPC-9190052610-1634"
+queue-block 0/5 
+shaper profile "RJIL-ENT-IPC-9190052610-1634"
+exit all
+configure port ethernet "21"
+queue-group profile "RJIL-ENT-IPC-9190052610-1634"
+exit all
+configure flow
+classifier-profile "v1634" match-any
+match vlan 1634
+exit all
+#=================Define 1634 VLAN for service===========================#
+conf flow
+flow "v1634eth21_in"
+classifier "v1634"
+policer profile "RJIL-ENT-IPC-9190052610-1634"
+mark all
+p-bit 6
+exit
+ingress-port ethernet 21
+egress-port bridge-port 1 21
+reverse-direction block 0/5 
+no shutdown
+exit all
+save
+#===========Defining Ring Configuration ===================
+configure protection
+erp 1 major
+vlan 1634
+queue-block east 0/1 west 0/1
+no shutdown
+exit
+no shutdown
+exit all
+save
+

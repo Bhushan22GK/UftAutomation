@@ -1,0 +1,46 @@
+#
+# Configuration file for SAP Convergent Charging Core Tool
+#
+
+frame.width=900
+frame.height=700
+
+#
+# Language can be set uncommenting country and language lines
+# Language values (country code/language code):
+# 	simplified Chinese: zh/CN
+# 	traditional Chinese: zh/TW
+# 	Czech: CZ/cze
+# 	Dutch: NL/dut
+# 	English (default): US/en
+# 	French: FR/fr
+# 	German: DE/de
+# 	Hungarian: HU/hun
+# 	Italian: IT/ita
+# 	Japanese: JP/ja
+# 	Korean: KR/ko
+# 	Polish: PL/pol
+# 	Portuguese: PT/por
+# 	Russian: RU/ru
+# 	Slovenian: SI/slv
+# 	Spanish: ES/es
+# 	Swedish: SE/swe
+# 	Turkish: TR/tur
+#
+#country=US
+#language=en
+
+#
+# Calendar date format can be set uncommenting next line
+#
+#calendar_date_format=MMMM yyyy
+
+
+#
+# Help links can be set defining and uncommenting next lines
+# values: a valid URL
+#
+#help.contents.url=http://help.sap.com/saphelp_cc40/helpdata/en/e4/core_tool/frameset.htm
+#help.components.url=http://help.sap.com/saphelp_cc40/helpdata/en/e4/comporef/frameset.htm
+#help.portal.url=http://help.sap.com/
+#

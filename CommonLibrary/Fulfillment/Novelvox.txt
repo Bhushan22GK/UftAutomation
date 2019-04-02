@@ -1,0 +1,689 @@
+
+'*****************************************************************************************
+'Function Type 			: Business Component
+'Function Name			: Fn_NV_Login()
+'Function Created By 	: Fatima2 Shaikh
+'Function Task			: Function to Login in NovelVox
+'Last Modified Date 	: 6th December, 2017
+'*****************************************************************************************
+Function Fn_NV_Login()
+	blnOutput = false
+	
+	Fn_Close_Process("iexplore.exe")
+	Fn_Close_Process("firefox.exe")
+	Fn_Close_Process("chrome.exe")
+	
+	'strURL = "https://novelvox.jiolabs.com"
+	strURL = TestPlan_Obj.Item("URL")
+	
+	SystemUtil.Run "iexplore.exe", strURL
+	
+	Set oHome = Browser("CreationTime:=0").Page("CreationTime:=0")
+	
+	wait 5
+	If Window("object class:=Alternate Modal Top Most").Dialog("regexpwndtitle:=Windows Security").WinEdit("nativeclass:=Edit","index:=0").Exist Then
+		Window("object class:=Alternate Modal Top Most").Dialog("regexpwndtitle:=Windows Security").WinEdit("nativeclass:=Edit","index:=0").Set TestPlan_Obj.Item("UserName")
+		Call Passsteps("User Name field Exists and Successfully Set : " &TestPlan_Obj.Item("UserName"))
+		
+		If Window("object class:=Alternate Modal Top Most").Dialog("regexpwndtitle:=Windows Security").WinEdit("nativeclass:=Edit","index:=1").Exist Then
+			Window("object class:=Alternate Modal Top Most").Dialog("regexpwndtitle:=Windows Security").WinEdit("nativeclass:=Edit","index:=1").Set TestPlan_Obj.Item("Password")
+			Call Passsteps("Password field Exists and Successfully Set : " &TestPlan_Obj.Item("Password"))
+				If Window("object class:=Alternate Modal Top Most").Dialog("regexpwndtitle:=Windows Security").WinButton("nativeclass:=Button","regexpwndtitle:=OK").Exist Then
+					Window("object class:=Alternate Modal Top Most").Dialog("regexpwndtitle:=Windows Security").WinButton("nativeclass:=Button","regexpwndtitle:=OK").Click
+					Call Passsteps("OK Button Exists and Successfully Clicked.")
+						Wait 3
+						
+						If oHome.WebEdit("name:=extension","html tag:=INPUT").Exist Then
+							oHome.WebEdit("name:=extension","html tag:=INPUT").Set TestPlan_Obj.Item("Extension")
+							Call Passsteps("Extension Exists and Successfully Set : "&TestPlan_Obj.Item("Extension"))
+								If oHome.WebButton("html tag:=INPUT","value:=Login").Exist Then
+									oHome.WebButton("html tag:=INPUT","value:=Login").Click
+									wait 5
+									Call Passsteps("Login Button Exists and Successfully Clicked.")
+									BrowserMaximize()
+									If ohome.GetROProperty("title")= "Jio CC" Then
+										Call Passsteps("Login Successfully in Novelvox")
+										blnOutput = True
+									End If
+								Else
+									Call FailSteps("Error: Login Button does not exist")
+									Exit Function
+								End If	
+						Else
+							Call FailSteps("Error: Extension Field does not exist")
+							Exit Function
+						End If
+				Else
+					Call FailSteps("Error: OK Button does not exist")
+					Exit Function
+				End If
+		Else		
+			Call FailSteps("Error: Password field does not exist")
+			Exit Function
+		End If
+	Else
+		Call FailSteps("Error: uesr name field does not exist")
+		Exit Function
+	End If
+	
+End Function
+
+
+'*****************************************************************************************
+'Function Type 			: Business Component
+'Function Name			: Fn_NV_Logout()
+'Function Created By 	: Fatima2 Shaikh
+'Function Task			: Function to Logout in NovelVox
+'Last Modified Date 	: 6th December, 2017
+'*****************************************************************************************
+Function Fn_NV_Logout()
+
+	blnOutput = false
+	
+	Set oHome = Browser("CreationTime:=0").Page("CreationTime:=0")
+	If oHome.WebButton("innertext:=Logout","html tag:=BUTTON").Exist Then
+		oHome.WebButton("innertext:=Logout","html tag:=BUTTON").Click
+		Call Passsteps("Logout Button Exist")
+			If oHome.WebElement("html tag:=H1","innerhtml:=Application Logout").Exist Then
+				Call Passsteps("Logout Successfully.")
+				Fn_Close_Process("iexplore.exe")
+				blnOutput = True
+			Else 
+				Call FailSteps("Error: Unable to logout from NV")
+			End If
+	Else	
+		Call FailSteps("Error: Logout Button does not exist")
+	End If
+	
+End Function
+
+'*****************************************************************************************
+'Function Type 			: Business Component
+'Function Name			: Fn_NV_LogoutFn_NV_LR()
+'Function Created By 	: Fatima2 Shaikh
+'Function Task			: Function to Approved and Reject LR From NovelVox
+'Last Modified Date 	: 6th December, 2017
+'*****************************************************************************************
+Function Fn_NV_LR()
+	blnOutput = false
+	
+	Set Exl = CreateObject("Excel.Application")
+	Set Wb = Exl.Workbooks.Open("C:\RIL_TTAF_REPLICA\Datasheet\Data.xlsx")
+	Set Ws = Wb.Worksheets("Sheet1")
+	orow = ws.usedrange.rows.count
+	ORN = ws.cells(orow,1)
+	Set oHome = Browser("CreationTime:=0").Page("CreationTime:=0")
+	
+	If oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Exist Then
+		oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Click
+		Call Passsteps("Search Button Exist and Clicked")
+			If oHome.WebElement("innerhtml:=Advance Customer Search","html tag:=SPAN").Exist Then
+				Call Passsteps("Advanced Customer Search tab Exist")
+					If oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Exist Then
+						oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Set ORN
+						Call Passsteps("ORN successfully set : "&ORN)
+							If oHome.WebElement("innertext:= LR Search.*","html tag:=LABEL","index:=0").Exist Then
+								oHome.WebElement("innertext:= LR Search.*","html tag:=LABEL","index:=0").Click
+								Call Passsteps("LR Search RadioButton exist and clicked successfully")
+									If oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Exist Then
+										oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Click
+										Call Passsteps("Search button exist and clicked successfully")
+										
+										If oHome.WebElement("innertext:= No records found in Retrieve Customer for Local Reference","html tag:=LI","index:=0").Exist Then
+											Call FailSteps("Error: LR Search ORN does not exist")
+											Exit Function
+										ElseIf oHome.WebElement("innertext:=Local Reference.*","html tag:=SPAN").Exist Then
+											Call Passsteps("LR Searched Tab exist")
+											
+											Select Case TestPlan_Obj("LR")
+												Case "Approval"
+													If oHome.WebButton("outertext:=LR Approved","html tag:=BUTTON").Exist Then
+														oHome.WebButton("outertext:=LR Approved","html tag:=BUTTON").Click
+														oHome.WebButton("html tag:=BUTTON","innertext:=OK","visible:=True").Click
+														Call Passsteps("LR Successfully Approved")
+														blnOutput = true
+													Else 
+														Call FailSteps("Error: Unable to Approve LR")
+														Exit Function
+													End If
+												Case "Rejection"
+												
+													If oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=2").Exist Then
+														oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=2").Click
+														oHome.WebElement("innerhtml:=Customer not reachable","html tag:=LI","index:=0").Click
+														oHome.WebButton("outertext:=LR Rejected","html tag:=BUTTON").Click
+														oHome.WebButton("html tag:=BUTTON","innertext:=OK","visible:=True").Click
+														Call Passsteps("LR Rejected")
+														blnOutput = true
+													Else
+														Call FailSteps("Error: Unable to Rejected LR")
+														Exit Function
+													End If
+											End Select
+										End If
+										
+									Else
+										Call FailSteps("Error: Search Button does not exist")
+									End If
+							Else
+								Call FailSteps("Error: LR Search RadioButton does not exist")
+							End If
+						
+					Else
+						Call FailSteps("Error: Unable to set ORN")
+					End If
+				
+			Else
+				Call FailSteps("Error: Advanced Customer Search tab does not exist")
+			End If
+		
+	Else
+		Call FailSteps("Error: Search Button does not exist")
+	End If
+	
+	Call Fn_NV_Logout
+	
+	Set Ws = Nothing
+	Set Wb = Nothing
+	Set Exl = Nothing
+End Function
+
+
+'*****************************************************************************************
+'Function Type 			: Business Component
+'Function Name			: Fn_NV_MACD()
+'Function Created By 	: Fatima2 Shaikh
+'Function Task			: Function to Prefrom MACD Operations From NovelVox
+'Last Modified Date 	: 11th December, 2017
+'*****************************************************************************************
+Function Fn_NV_MACD()
+	blnOutput = false
+	
+	Set Exl = CreateObject("Excel.Application")
+	Set Wb = Exl.Workbooks.Open("C:\RIL_TTAF_REPLICA\Datasheet\Data.xlsx")
+	Set Ws = Wb.Worksheets("Sheet1")
+	orow = ws.usedrange.rows.count
+	CustID = ws.cells(orow,3)
+	MACD_Reason = TestPlan_Obj("MACD_Reason")
+	Set oHome = Browser("CreationTime:=0").Page("CreationTime:=0")
+	
+	If oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Exist Then
+		oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Click
+		Call Passsteps("Search Button Exist and Clicked")
+			If oHome.WebElement("innerhtml:=Advance Customer Search","html tag:=SPAN").Exist Then
+				Call Passsteps("Advanced Customer Search tab Exist")
+					If oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Exist Then
+						oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Set CustID
+						Call Passsteps("CustomerID successfully set : "&CustID)
+							If oHome.WebElement("html tag:=LABEL","innertext:= Customer ID.*","visible:=True","index:=0").Exist Then
+								oHome.WebElement("html tag:=LABEL","innertext:= Customer ID.*","visible:=True","index:=0").Click
+								Call Passsteps("Customer ID Search RadioButton exist and clicked successfully")
+									If oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Exist Then
+										oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Click
+										Call Passsteps("Search button exist and clicked successfully")
+										
+										If oHome.WebEdit("html id:=jiocc_v6_textinput219201612555117_1_429_449_449_428_target","html tag:=INPUT").Exist Then
+											JioStatus =	oHome.WebEdit("html id:=jiocc_v6_textinput219201612555117_1_429_449_449_428_target","html tag:=INPUT").GetROProperty("value")
+		
+											If JioStatus = "" Then
+												Call FailSteps("Error: Customer is ceased")
+												blnOutput = True
+												Exit Function
+												Call Fn_NV_Logout
+												
+											ElseIf JioStatus = "SUSPENDED-"&MACD_Reason Then
+												If oHome.WebButton("html tag:=BUTTON","innertext:= MACD & Services").Exist Then
+													oHome.WebButton("html tag:=BUTTON","innertext:= MACD & Services").Click
+													Call Passsteps("MACD and Services Tab exist")
+												Else
+													Call FailSteps("Error: MACD and Services tab does not exist")
+												End If
+													
+												Select Case ucase(TestPlan_Obj("MACD"))
+													Case ucase("Resume")
+														If oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=6").Exist Then
+															oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=6").Click
+															oHome.WebElement("innerhtml:=RESUME","html tag:=LI").click
+															oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=4").Click
+															oHome.WebElement("innerhtml:=SIM/Device found","html tag:=LI").Click
+															oHome.WebButton("innertext:=Submit","html tag:=BUTTON","index:=2").Click
+															Call Passsteps("Customer is " &TestPlan_Obj("MACD")&"ed")
+														End If
+													Case ucase("OGUNbar")
+														If oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=6").Exist Then
+															oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=6").Click
+															oHome.WebElement("innerhtml:=OUTGOING_UNBAR","html tag:=LI").click
+															oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=4").Click
+															oHome.WebElement("innerhtml:=OG Bar Removed - Customer initiated","html tag:=LI").Click
+															oHome.WebButton("innertext:=Submit","html tag:=BUTTON","index:=2").Click
+															Call Passsteps("Customer is " &TestPlan_Obj("MACD")&"ed")
+														End If																
+													End Select
+											ElseIf JioStatus = "Active" then
+												If oHome.WebButton("html tag:=BUTTON","innertext:= MACD & Services").Exist Then
+													oHome.WebButton("html tag:=BUTTON","innertext:= MACD & Services").Click
+													Call Passsteps("MACD and Services Tab exist")
+												Else
+													Call FailSteps("Error: MACD and Services tab does not exist")
+												End If
+												
+												Select Case ucase(TestPlan_Obj("MACD"))
+													Case ucase("Suspend")
+														If oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=6").Exist Then
+															oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=6").Click
+															oHome.WebElement("innerhtml:=SUSPEND","html tag:=LI").click
+															oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=4").Click
+															oHome.WebElement("innerhtml:="&MACD_Reason,"html tag:=LI").Click
+															oHome.WebButton("innertext:=Submit","html tag:=BUTTON","index:=2").Click
+															Call Passsteps("Customer is " &TestPlan_Obj("MACD") &" with reason "&MACD_Reason)
+														End If
+													Case ucase("OGBar")
+														If oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=6").Exist Then
+															oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=6").Click
+															oHome.WebElement("innerhtml:=OUTGOING_BAR","html tag:=LI").click
+															oHome.WebButton("html id:=dropDownAnchor","html tag:=INPUT","visible:=True","index:=4").Click
+															oHome.WebElement("innerhtml:="&MACD_Reason,"html tag:=LI").Click
+															oHome.WebButton("innertext:=Submit","html tag:=BUTTON","index:=2").Click
+															Call Passsteps("Customer is " &TestPlan_Obj("MACD") &" with reason "&MACD_Reason)
+														End If																
+												End Select
+												
+											End If
+										
+										End If
+										
+										If oHome.WebElement("Xpath:=//*[@class='fontfamily_isuite label_target' and @id='jiocc_v6_label94201716231054616_target' ]").Exist Then
+											str = oHome.WebElement("Xpath:=//*[@class='fontfamily_isuite label_target' and @id='jiocc_v6_label94201716231054616_target' ]").GetROProperty("innertext")
+											arr=split(str,"MACD performed with Reference Number :- ")
+											ORN = arr(1)
+											Call passsteps("ORN number is : " & ORN)
+											Ws.Cells(orow,29) = ORN
+											oHome.WebButton("html tag:=BUTTON","innertext:=OK","visible:=True").Click
+											blnOutput = True
+										End If
+									Else
+										Call FailSteps("Error: Search Button does not exist")
+									End If
+								
+							Else
+								Call FailSteps("Error: Customer ID Search RadioButton does not exist")
+							End If
+						
+					Else
+						Call FailSteps("Error: Unable to set CustomerID")
+					End If
+				
+			Else
+				Call FailSteps("Error: Advanced Customer Search tab does not exist")
+			End If
+		
+	Else
+		Call FailSteps("Error: Search Button does not exist")
+	End If
+	
+	Call Fn_NV_Logout
+	
+	Set Ws = Nothing
+	Set Wb = Nothing
+	Set Exl = Nothing
+End Function
+
+'*****************************************************************************************
+'Function Type 			: Business Component
+'Function Name			: Fn_NV_MACD_Validation()
+'Function Created By 	: Fatima2 Shaikh
+'Function Task			: Function to Validate MACD Operations From NovelVox
+'Last Modified Date 	: 13th December, 2017
+'*****************************************************************************************
+Function Fn_NV_MACD_Validation()
+	blnOutput = false
+	
+	Set Exl = CreateObject("Excel.Application")
+	Set Wb = Exl.Workbooks.Open("C:\RIL_TTAF_REPLICA\Datasheet\Data.xlsx")
+	Set Ws = Wb.Worksheets("Sheet1")
+	orow = ws.usedrange.rows.count
+	CustID = ws.cells(orow,3)
+	MACD_Reason = TestPlan_Obj("MACD_Reason")
+	Set oHome = Browser("CreationTime:=0").Page("CreationTime:=0")
+	
+	If oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Exist Then
+		oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Click
+		Call Passsteps("Search Button Exist and Clicked")
+			If oHome.WebElement("innerhtml:=Advance Customer Search","html tag:=SPAN").Exist Then
+				Call Passsteps("Advanced Customer Search tab Exist")
+					If oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Exist Then
+						oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Set CustID
+						Call Passsteps("CustomerID successfully set : "&CustID)
+							If oHome.WebElement("html tag:=LABEL","innertext:= Customer ID.*","visible:=True","index:=0").Exist Then
+								oHome.WebElement("html tag:=LABEL","innertext:= Customer ID.*","visible:=True","index:=0").Click
+								Call Passsteps("Customer ID Search RadioButton exist and clicked successfully")
+									If oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Exist Then
+										oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Click
+										Call Passsteps("Search button exist and clicked successfully")
+										
+										If oHome.WebEdit("html id:=jiocc_v6_textinput219201612555117_1_429_449_449_428_target","html tag:=INPUT").Exist Then
+											JioStatus =	oHome.WebEdit("html id:=jiocc_v6_textinput219201612555117_1_429_449_449_428_target","html tag:=INPUT").GetROProperty("value")
+											If JioStatus = "" Then
+												Call FailSteps("Error: Customer is ceased")
+												
+											ElseIf JioStatus = "SUSPENDED-"&MACD_Reason Then
+												Call Passsteps("Customer is Supended with reason :"&MACD_Reason)
+'													Exit Function
+												
+											ElseIf JioStatus = "Active" then
+												Call Passsteps("Customer is in Active State")
+											End IF
+'											Exit Function
+											'End If
+										End If
+									Else
+										Call FailSteps("Error: Search Button does not exist")
+									End If
+							Else
+								Call FailSteps("Error: Customer ID Search RadioButton does not exist")
+							End If
+						
+					Else
+						Call FailSteps("Error: Unable to set CustomerID")
+					End If
+				
+			Else
+				Call FailSteps("Error: Advanced Customer Search tab does not exist")
+			End If
+		
+	Else
+		Call FailSteps("Error: Search Button does not exist")
+	End If
+	
+	Call Fn_NV_Logout
+	
+	Set Ws = Nothing
+	Set Wb = Nothing
+	Set Exl = Nothing
+End Function
+
+'*****************************************************************************************
+'Function Type 			: Business Component
+'Function Name			: Fn_NV_SRCreation()
+'Function Created By 	: Fatima2 Shaikh
+'Function Task			: Function to Create Service Request From NovelVox
+'Last Modified Date 	: 15th December, 2017
+'*****************************************************************************************
+
+Function Fn_NV_SRCreation()
+	blnOutput = false
+	
+	Set Exl = CreateObject("Excel.Application")
+	Set Wb = Exl.Workbooks.Open("C:\RIL_TTAF_REPLICA\Datasheet\Data.xlsx")
+	Set Ws = Wb.Worksheets("Sheet1")
+	orow = ws.usedrange.rows.count
+	CustID = ws.cells(orow,3)
+	Desc= TestPlan_Obj("Desc")
+	LATnLong = RandomNumber(11,99)&"."&RandomNumber(11,99)&","&RandomNumber(11,99)&"."&RandomNumber(11,99)
+	
+	Set oHome = Browser("CreationTime:=0").Page("CreationTime:=0")
+	
+	If oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Exist Then
+		oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Click
+		Call Passsteps("Search Button Exist and Clicked")
+			If oHome.WebElement("innerhtml:=Advance Customer Search","html tag:=SPAN").Exist Then
+				Call Passsteps("Advanced Customer Search tab Exist")
+					If oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Exist Then
+						oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Set CustID
+						Call Passsteps("CustomerID successfully set : "&CustID)
+							If oHome.WebElement("html tag:=LABEL","innertext:= Customer ID.*","visible:=True","index:=0").Exist Then
+								oHome.WebElement("html tag:=LABEL","innertext:= Customer ID.*","visible:=True","index:=0").Click
+								Call Passsteps("Customer ID Search RadioButton exist and clicked successfully")
+									If oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Exist Then
+										oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Click
+										Call Passsteps("Search button exist and clicked successfully")
+										wait 3
+										
+										If oHome.WebButton("html tag:=BUTTON","html id:=jiocc_v6_button1032017185625686.*").Exist Then
+											oHome.WebButton("html tag:=BUTTON","html id:=jiocc_v6_button1032017185625686.*").Click
+											
+											If oHome.WebButton("html tag:=INPUT","html id:=dropDownAnchor","visible:=True","index:=1").Exist Then
+												oHome.WebButton("html tag:=INPUT","html id:=dropDownAnchor","visible:=True","index:=1").click
+												oHome.WebElement("html tag:=LI","innerhtml:=SR","visible:=True").Click
+												oHome.WebElement("Xpath:=//*[@placeholder='Type' and @id='jiocc_v6_dropdownlist6920171541349503_2_background']").click
+												oHome.WebElement("html tag:=LI","innertext:=NETWORK & CONNECTIVITY COMPLAINT TAKEN.*","visible:=True").click
+												oHome.WebElement("Xpath:=//*[@placeholder='Sub-Type' and @id='jiocc_v6_dropdownlist6920171541349506_5_selected_value']//following-sibling::input[1]").click
+												oHome.WebElement("html tag:=LI","innerhtml:=COVERAGE","visible:=True").click
+												oHome.WebElement("Xpath:=//*[@placeholder='Sub-Sub-Type' and @id='jiocc_v6_dropdownlist6920171541349507_6_background']").click 
+												oHome.WebElement("html tag:=LI","innerhtml:=NO INDOOR COVERAGE","visible:=True").click
+												oHome.WebEdit("html tag:=INPUT","html id:=jiocc_v6_textinput6920171541349508.*","visible:=True").Set LATnLong
+												oHome.WebEdit("html tag:=TEXTAREA","html id:=jiocc_v6_textarea6920171541349505_4_target").Set Desc
+												oHome.WebButton("html tag:=BUTTON","value:=Submit","html id:=jiocc_v6_button69201715413495111_10_leftpane").click
+												
+												If oHome.WebElement("Xpath:=//*[@class='fontfamily_isuite label_target' and @id='jiocc_v6_label94201716231054616_target' ]").Exist Then
+													SRTxt = oHome.WebElement("Xpath:=//*[@class='fontfamily_isuite label_target' and @id='jiocc_v6_label94201716231054616_target' ]").getroproperty("innertext")
+													arr=split(SRTxt,"Your service request ID is  ")
+													SR1 = arr(1)
+													SR = split(SR1, " ")
+													Call passsteps("SR number is : " & SR(0))
+													Ws.Cells(orow,34) = SR(0)
+													oHome.WebButton("html tag:=BUTTON","innertext:=OK","visible:=True").Click
+													blnOutput = True
+												End If
+											End If
+										End If
+										
+									Else
+										Call FailSteps("Error: Search Button does not exist")
+									End If
+							Else
+								Call FailSteps("Error: Customer ID Search RadioButton does not exist")
+							End If
+						
+					Else
+						Call FailSteps("Error: Unable to set CustomerID")
+					End If
+				
+			Else
+				Call FailSteps("Error: Advanced Customer Search tab does not exist")
+			End If
+		
+	Else
+		Call FailSteps("Error: Search Button does not exist")
+	End If
+	
+	Call Fn_NV_Logout
+	
+	Set Ws = Nothing
+	Set Wb = Nothing
+	Set Exl = Nothing
+End Function
+
+'*****************************************************************************************
+'Function Type 			: Business Component
+'Function Name			: Fn_NV_Demographic_Changes()
+'Function Created By 	: Fatima2 Shaikh
+'Function Task			: Function to Change Demographic detail of customers From NovelVox
+'Last Modified Date 	: 19th December, 2017
+'*****************************************************************************************
+Function Fn_NV_Demographic_Changes()
+	blnOutput = false
+	
+	Set Exl = CreateObject("Excel.Application")
+	Set Wb = Exl.Workbooks.Open("C:\RIL_TTAF_REPLICA\Datasheet\Data.xlsx")
+	Set Ws = Wb.Worksheets("Sheet1")
+	orow = ws.usedrange.rows.count
+	CustID = ws.cells(orow,3)
+	MobileNo = "986" & RandomNumber(1111111, 9999999)
+	
+	Randomize
+	alpha_Char = Array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","S","T","U","V","W","X","Y","Z")
+
+	'FTemp
+
+	For i = 1 To 6
+		index = Int(Rnd()*20)
+		ftemp = ftemp & alpha_Char(index)
+	Next
+	
+	strFname = "AutF" & ftemp
+	Email = strFname &"@mail.jio.com"
+
+	
+	Set oHome = Browser("CreationTime:=0").Page("CreationTime:=0")
+	
+	If oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Exist Then
+		oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Click
+		Call Passsteps("Search Button Exist and Clicked")
+			If oHome.WebElement("innerhtml:=Advance Customer Search","html tag:=SPAN").Exist Then
+				Call Passsteps("Advanced Customer Search tab Exist")
+					If oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Exist Then
+						oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Set CustID
+						Call Passsteps("CustomerID successfully set : "&CustID)
+							If oHome.WebElement("html tag:=LABEL","innertext:= Customer ID.*","visible:=True","index:=0").Exist Then
+								oHome.WebElement("html tag:=LABEL","innertext:= Customer ID.*","visible:=True","index:=0").Click
+								Call Passsteps("Customer ID Search RadioButton exist and clicked successfully")
+									If oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Exist Then
+										oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Click
+										Call Passsteps("Search button exist and clicked successfully")
+										
+										If oHome.WebEdit("html id:=jiocc_v6_textinput219201612555117_1_429_449_449_428_target","html tag:=INPUT").Exist Then
+											JioStatus =	oHome.WebEdit("html id:=jiocc_v6_textinput219201612555117_1_429_449_449_428_target","html tag:=INPUT").GetROProperty("value")
+		
+											If JioStatus = "" Then
+												Call FailSteps("Error: Customer is ceased")
+												blnOutput = True
+												Exit Function
+												Call Fn_NV_Logout
+											End if
+																					
+										End If
+										
+										If oHome.WebButton("html tag:=BUTTON","innertext:= MACD & Services").Exist Then
+											oHome.WebButton("html tag:=BUTTON","innertext:= MACD & Services").Click
+											Call Passsteps("MACD Services Tab Exist")
+											If oHome.WebEdit("html tag:=INPUT","html id:=macd_v6_textinput2102016133145612_target").Exist Then
+												OldMobNo = oHome.WebEdit("html tag:=INPUT","html id:=macd_v6_textinput2102016133145612_target").getroproperty("value")
+												Call Passsteps("Old Mobile No of customer is : "&OldMobNo)
+											End If
+											
+											If oHome.WebEdit("html tag:=INPUT","html id:=macd_v6_textinput2102016133150927_target").Exist Then
+												OldEmail  = oHome.WebEdit("html tag:=INPUT","html id:=macd_v6_textinput2102016133150927_target").getroproperty("value")
+												Call Passsteps("Old Email Id of customer is : "&OldEmail)
+											End If
+											
+											Select Case UCase(TestPlan_Obj.Item("ChangeValueOf"))
+												Case "MOBILE"
+													If oHome.WebEdit("html tag:=INPUT","html id:=macd_v6_textinput2102016133145612_target").Exist Then
+														oHome.WebEdit("html tag:=INPUT","html id:=macd_v6_textinput2102016133145612_target").Set MobileNo
+														Call Passsteps("New Mobile No set is  : "&MobileNo)
+													Else
+														Call FailSteps("Error: Unable to set Mobile No Field")
+													End If
+												Case "EMAIL"
+													If oHome.WebEdit("html tag:=INPUT","html id:=macd_v6_textinput2102016133150927_target").Exist Then
+														oHome.WebEdit("html tag:=INPUT","html id:=macd_v6_textinput2102016133150927_target").Set Email
+														Call Passsteps("New Email No set is  : "&Email)
+													Else
+														Call FailSteps("Error: Unable to set Email Field")
+													End If
+												Case "MARITAL STATUS"
+													If oHome.WebElement("Xpath:=//*[@id='macd_v6_dropdownlist210201616413381_1_background' and @class ='cursr_pntr bx_sizng inln_blck height100 pos_absolute disabled']").Exist Then
+														oHome.WebElement("Xpath:=//*[@id='macd_v6_dropdownlist210201616413381_1_background' and @class ='cursr_pntr bx_sizng inln_blck height100 pos_absolute disabled']").Click
+														oHome.WebElement("html tag:=LI","innerhtml:="&Ucase(TestPlan_Obj.Item("MaritalStatus")),"visible:=True").click
+														Call Passsteps("Marital Status Selected: "&TestPlan_Obj.Item("MaritalStatus"))
+													Else
+														Call FailSteps("Error::Marital Status not visible")
+													End If
+												
+												Case "PREFERRED MODE"
+												
+													If oHome.WebElement("Xpath:=//*[@id='macd_v6_dropdownlist2102016133224264_background' and @class ='cursr_pntr bx_sizng inln_blck height100 pos_absolute disabled']").Exist Then
+														oHome.WebElement("Xpath:=//*[@id='macd_v6_dropdownlist2102016133224264_background' and @class ='cursr_pntr bx_sizng inln_blck height100 pos_absolute disabled']").Click
+														oHome.WebElement("html tag:=LI","innerhtml:="&Ucase(TestPlan_Obj.Item("PreferredMode")),"visible:=True").click
+														Call Passsteps("Preferred Mode Selected: "&TestPlan_Obj.Item("PreferredMode"))
+													Else
+														Call FailSteps("Error::Preferred Mode not visible")
+													End If
+													
+												Case "PREFERRED LANGUAGE"
+												
+													If oHome.WebElement("Xpath:=//*[@id='macd_v6_dropdownlist2102016133227265_background' and @class ='cursr_pntr bx_sizng inln_blck height100 pos_absolute disabled']").Exist Then
+														oHome.WebElement("Xpath:=//*[@id='macd_v6_dropdownlist2102016133227265_background' and @class ='cursr_pntr bx_sizng inln_blck height100 pos_absolute disabled']").Click
+														oHome.WebElement("html tag:=LI","innerhtml:="&Ucase(TestPlan_Obj.Item("Lang")),"visible:=True").click
+														Call Passsteps("Language Selected: "&TestPlan_Obj.Item("Lang"))
+													Else
+														Call FailSteps("Error::Language not visible")
+													End If
+													
+												Case "OCCUPATION"
+													If oHome.WebElement("Xpath:=//*[@id='macd_v6_dropdownlist2102016133232248_background' and @class ='cursr_pntr bx_sizng inln_blck height100 pos_absolute disabled']").Exist Then
+														oHome.WebElement("Xpath:=//*[@id='macd_v6_dropdownlist2102016133232248_background' and @class ='cursr_pntr bx_sizng inln_blck height100 pos_absolute disabled']").Click
+														oHome.WebElement("html tag:=LI","innerhtml:="&Ucase(TestPlan_Obj.Item("Occupation")),"visible:=True").click
+														Call Passsteps("Marital Status Selected: "&TestPlan_Obj.Item("Occupation"))
+													Else
+														Call FailSteps("Error::Occupation not visible")
+													End If
+											End Select
+											
+											oHome.WebElement("Xpath:=//*[@id='macd_v6_button9120171308110_leftpane' and @type='button']").click
+											If oHome.WebElement("Xpath:=//*[@class='fontfamily_isuite label_target' and @id='jiocc_v6_label94201716231054616_target' ]").Exist Then
+												DemoTxt = oHome.WebElement("Xpath:=//*[@class='fontfamily_isuite label_target' and @id='jiocc_v6_label94201716231054616_target' ]").getroproperty("innertext")
+												arr=split(DemoTxt,"Customer has been updated with Reference Id: ")
+												Demo1 = arr(1)
+												Demo2 = split(Demo1, " ")
+												Demo3=Demo2(0)
+												Demo = Left(Demo3,12)
+												Call passsteps("Demographic Number is : " & Demo)
+												Ws.Cells(orow,29) = Demo
+												oHome.WebButton("html tag:=BUTTON","innertext:=OK","visible:=True").Click
+												
+											End If
+											
+											If UCase(TestPlan_Obj.Item("ChangeValueOf")) = "MOBILE" or UCase(TestPlan_Obj.Item("ChangeValueOf")) = "EMAIL" Then
+												If oHome.WebButton("Xpath:=//*[@id='macd_v6_button2812017185944733_leftpane']","html tag:=BUTTON").Exist Then
+													oHome.WebButton("Xpath:=//*[@id='macd_v6_button2812017185944733_leftpane']","html tag:=BUTTON").click
+													oHome.WebButton("html id:=jiocc_v6_button2192016191847104_453_473_473_452_leftpane","html tag:=BUTTON").Click
+													oHome.WebEdit("html id:=jiocc_v6_textinput2492016163929914_471_491_491_470_target","html tag:=INPUT").Set CustID
+													oHome.WebElement("html tag:=LABEL","innertext:= Customer ID.*","visible:=True","index:=0").Click
+													oHome.WebButton("innertext:= Search","html tag:=BUTTON","index:=0").Click
+													oHome.WebButton("html tag:=BUTTON","innertext:= MACD & Services").Click
+													
+													If UCase(TestPlan_Obj.Item("ChangeValueOf")) = "MOBILE" Then
+														UpdatedMobNo = oHome.WebEdit("html tag:=INPUT","html id:=macd_v6_textinput2102016133145612_target").getroproperty("value")
+														If UpdatedMobNo =  MobileNo Then
+															Call passsteps("Mobile Number Successfully Updated")
+														End If
+													End If
+													
+													If UCase(TestPlan_Obj.Item("ChangeValueOf")) ="EMAIL" Then
+														UpdatedEmail  = oHome.WebEdit("html tag:=INPUT","html id:=macd_v6_textinput2102016133150927_target").getroproperty("value")
+														If UpdatedEmail = Email Then
+															Call passsteps("Email Successfully Updated")
+														End If
+													End If
+												End If
+											End If
+											
+										End If
+									Else
+										Call FailSteps("Error: Search Button does not exist")
+									End If
+							Else
+								Call FailSteps("Error: Customer ID Search RadioButton does not exist")
+							End If
+						
+					Else
+						Call FailSteps("Error: Unable to set CustomerID")
+					End If
+				
+			Else
+				Call FailSteps("Error: Advanced Customer Search tab does not exist")
+			End If
+		
+	Else
+		Call FailSteps("Error: Search Button does not exist")
+	End If
+	
+	blnOutput = True
+	Call Fn_NV_Logout
+	
+	Set Ws = Nothing
+	Set Wb = Nothing
+	Set Exl = Nothing
+End Function

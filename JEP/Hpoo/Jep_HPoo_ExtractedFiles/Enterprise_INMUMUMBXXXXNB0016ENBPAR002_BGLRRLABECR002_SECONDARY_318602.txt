@@ -1,0 +1,29 @@
+interface GigabitEthernet0/0/8
+no shutdown
+service instance trunk 1 ethernet
+encapsulation dot1q 883,2135
+rewrite ingress tag pop 1 symmetric
+bridge-domain from-encapsulation
+!
+interface TenGigabitEthernet0/0/26
+no shutdown
+service instance trunk 2 ethernet
+encapsulation dot1q 115-116,300,420,700-701,801-802,883,2104,2109,2121,2131,3333,2135
+rewrite ingress tag pop 1 symmetric
+bridge-domain from-encapsulation
+!
+ethernet ring g8032 ECR_Major
+exclusion-list vlan-ids 123,200,220,230,234,250,501-502,522,601-602,621-622,668-669
+port0 interface GigabitEthernet0/0/8
+port1 interface TenGigabitEthernet0/0/26
+instance 1
+profile 30
+rpl port0 owner
+inclusion-list vlan-ids 408,883,2135
+aps-channel
+port0 service instance 408
+port1 service instance 408
+
+!
+end
+write mem

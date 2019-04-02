@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://rjil.com/ericsson/inventoryProvisioning/datastructure">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <dat:enterpriseServiceNIPRequest>
+         <!--Optional:-->
+         <dat:ServiceID>482222050055</dat:ServiceID>
+      </dat:enterpriseServiceNIPRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

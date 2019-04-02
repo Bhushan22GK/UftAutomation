@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NPCMessageData>
+  <NPCData>
+    <MessageHeader>
+      <LSAID>KL</LSAID>
+      <PortType>MOBILE</PortType>
+      <TransactionID>KL20151001130947</TransactionID>
+      <MessageID>1002</MessageID>
+      <MsgCreateTimeStamp>20151001130947</MsgCreateTimeStamp>
+      <Sender>CRDB</Sender>
+    </MessageHeader>
+    <NPCMessage>
+      <PortRequest>
+        <NumberRange>
+          <NumberFrom>9872000155</NumberFrom>
+          <NumberTo>9872000155</NumberTo>
+        </NumberRange>
+        <DonorLSAID>KL</DonorLSAID>
+        <Donor>260</Donor>
+        <RecipientLSAID>KL</RecipientLSAID>
+        <Recipient>120</Recipient>
+        <AccountPayType>Prepaid</AccountPayType>
+        <PortingCode>JL989765</PortingCode>
+        <SubRequestTime>20151001130947</SubRequestTime>
+      </PortRequest>
+    </NPCMessage>
+  </NPCData>
+</NPCMessageData>

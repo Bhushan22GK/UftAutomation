@@ -1,0 +1,29 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cai3="http://schemas.ericsson.com/cai3g1.2/" xmlns:ems="http://schemas.ericsson.com/ema/UserProvisioning/EMSSV/">
+   <soapenv:Header>
+      <cai3:SequenceId>Sequence_Id</cai3:SequenceId>
+      <cai3:TransactionId>774629_ACT20180619132423862</cai3:TransactionId>
+      <cai3:SessionId>Session_Id</cai3:SessionId>
+   </soapenv:Header>
+   <soapenv:Body>
+      <cai3:Delete>
+         <cai3:MOType>Subscription@http://schemas.ericsson.com/ema/UserProvisioning/EMSSV/</cai3:MOType>
+         <cai3:MOId>
+            <ems:neName>ne_Name</ems:neName>
+            <ems:rack>var_rack</ems:rack>
+            <ems:shelf>var_shelf</ems:shelf>
+            <ems:slot>var_slot</ems:slot>
+            <ems:ponPort>var_ponPort</ems:ponPort>
+            <ems:channelNumber>var_channelNumber</ems:channelNumber>
+            <ems:circleCode>var_circleCode</ems:circleCode>
+         </cai3:MOId>
+         <cai3:MOAttributes>
+            <ems:deleteSubscription neName="ne_Name" rack="var_rack" shelf="var_shelf" slot="var_slot" ponPort="var_ponPort" channelNumber="var_channelNumber" circleCode="var_circleCode">
+               <!--1 or more repetitions:-->
+               <ems:template>
+                  <ems:typeOfService>Z0005</ems:typeOfService>
+               </ems:template>
+            </ems:deleteSubscription>
+         </cai3:MOAttributes>
+      </cai3:Delete>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NPCMessageData>
+	<NPCData>
+		<MessageHeader>
+            <LSAID>KL</LSAID>
+            <PortType>MOBILE</PortType>
+            <TransactionID>KL20151007130947</TransactionID>
+            <MessageID>1006</MessageID>
+            <MsgCreateTimeStamp>20151007161040</MsgCreateTimeStamp>
+            <Sender>CRDB</Sender>
+        </MessageHeader>
+		<NPCMessage>
+			<PortExecute>
+				<NumberRange>
+					<NumberFrom>9872670423</NumberFrom>
+					<NumberTo>9872670423</NumberTo>
+				</NumberRange>
+				<Comments>OK</Comments>
+			</PortExecute>
+		</NPCMessage>
+    </NPCData>
+</NPCMessageData>                                       

@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://rjil.com/ericsson/inventoryFTTH/datastructure">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <dat:DeleteCustomerAndUnReserveFTTHResourcesRequest>
+         <dat:customerID>Cust_id</dat:customerID>
+         <dat:Splitter2Id>Splitter_Id</dat:Splitter2Id>
+         <dat:Splitter2port>Splitter_port</dat:Splitter2port>
+      </dat:DeleteCustomerAndUnReserveFTTHResourcesRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,11 @@
+vrf RJIL-ENT-PMJG-901900000359-HUB
+address-family ipv4 unicast
+import route-target
+64771:3100093390
+!
+export route-target
+64771:2100093379
+!
+!
+commit
+

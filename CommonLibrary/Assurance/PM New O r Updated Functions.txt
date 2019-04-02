@@ -1,0 +1,132 @@
+Function Fn_Mycom_SelectKPIForCalculation()
+Dim strStatus,Enable_value
+Set Wsh=CreateObject("WScript.Shell")
+If JavaWindow("class description:=window","to_class:=JavaWindow").JavaInternalFrame("tagname:=MycomInternalFrameTitlePane","index:=0").Exist Then
+           'Selection of Time
+           If Fn_TIME_SendView() Then
+               fnCheck_Status strStatus,"Time:-" &TestPlan_Obj.Item("TimeSelection")
+               If Fn_wizardselectreport("Time") Then
+                   JavaWindow("class description:=window","to_class:=JavaWindow").JavaInternalFrame("tagname:=MycomInternalFrameTitlePane","index:=0").Maximize
+                                'Checking whether all elements are present in report or not
+                                Enable_value=JavaWindow("class description:=window","to_class:=JavaWindow").JavaToolbar("tagname:=Drop dimension for COLUMNS","index:=0").GetROProperty("enabled")
+                                If Enable_value = 1 Then
+                                   strStatus=true
+                                   Fn_SelectKPIForCalculation=True
+                                Else
+                                   Fn_SelectKPIForCalculation=False
+                                   strStatus=False
+                                   Call FailSteps("One Of The Element Is Not Selected")
+                                End If
+                Else
+                    Call FailSteps("Unable to select report for TIME")
+                End If
+            Else
+                Call FailSteps("Unable to Send view for TIME")
+            End If
+Else
+    Call Failsteps("No Report exist")
+End If
+Set strStatus = Nothing
+Set Enable_value = Nothing
+Set Wsh = Nothing
+End Function
+
+Function Fn_TIME_SendView()
+Dim Found,Row_Count,Iterator,Time_selection
+Found=0
+Set Wsh=CreateObject("WScript.Shell")
+If JavaWindow("class description:=window","to_class:=JavaWindow").WaitProperty("Visible",True,10000) Then
+    If JavaWindow("class description:=window","to_class:=JavaWindow").JavaTab("to_class:=JavaTab","index:=0").Exist Then
+       'Selecting time tab from pallete
+        JavaWindow("class description:=window","to_class:=JavaWindow").JavaTab("to_class:=JavaTab","index:=0").Select(2)
+        JavaWindow("class description:=window","to_class:=JavaWindow").JavaEdit("attached text:=Path.*","index:=1").Set TestPlan_Obj.Item("timeselectionpath") ' New Variable
+        Wsh.SendKeys "~"
+        If JavaWindow("class description:=window","to_class:=JavaWindow").JavaTable("to_class:=JavaTable","columns_names:=Short name.*").Exist Then
+            Row_Count=JavaWindow("class description:=window","to_class:=JavaWindow").JavaTable("to_class:=JavaTable","columns_names:=Short name.*").GetROProperty("rows")
+            If Row_Count>=1 Then
+             'Searching time as TestPlan_Obj.Item("TimeSelection")            
+                For Iterator = 0 To Row_Count-1 Step 1
+                    Time_selection=JavaWindow("class description:=window","to_class:=JavaWindow").JavaTable("to_class:=JavaTable","columns_names:=Short name.*").GetCellData (Iterator,0)
+                    If Time_selection=TestPlan_Obj.Item("TimeSelection") Then
+                        JavaWindow("class description:=window","to_class:=JavaWindow").JavaTable("to_class:=JavaTable","columns_names:=Short name.*").PressKey "A",micCtrl
+                        JavaWindow("class description:=window","to_class:=JavaWindow").JavaTable("to_class:=JavaTable","columns_names:=Short name.*").ClickCell Iterator,0,"RIGHT"
+                        Found=1
+                        Call Capture_EvidenceSnapshot()
+                        If JavaWindow("class description:=window","to_class:=JavaWindow").JavaTable("to_class:=JavaTable","columns_names:=Short name.*").JavaMenu("tagname:=Send to View...","index:=0").Exist Then
+                            JavaWindow("class description:=window","to_class:=JavaWindow").JavaTable("to_class:=JavaTable","columns_names:=Short name;").JavaMenu("tagname:=Send to View...","index:=0").Select
+                        Else
+                            Call Failsteps("Java Menu - Send to view does not exist")
+                        End If
+                        Exit For              
+                    End If
+                Next 
+            Else
+                Call Failsteps("No Time Period Exist For The Node")
+            End If
+            If Found=1 Then
+                Fn_TIME_SendView = True
+                Call PassSteps("Send View done for TIME")
+            Else
+                Call Failsteps("Time Period does not exist")
+            End If
+        Else
+            Call Failsteps("Table Short Name doesn't Exist")
+        End If
+    Else
+        Call FailSteps("Unable to find JavaTab")
+    End If
+Else
+    Call Failsteps("Java window is not visible")
+End If
+Set Found = Nothing
+set Row_Count = Nothing
+Set Iterator = Nothing
+Set Time_selection =Nothing
+Set Wsh = Nothing
+End Function
+
+'************************************************************************************
+'FUNCTION TYPE : Business Component
+'FUNCTION NAME: Fn_Mycom_ExportReport
+'FUNCTION TASK: Function to export report from mycom
+'************************************************************************************
+Function Fn_Mycom_ExportReport()
+blnOutput = False
+If JavaWindow("class description:=window","to_class:=JavaWindow").JavaMenu("tagname:=View","index:=2").JavaMenu("tagname:=Export as.*","index:=6").Exist Then
+   JavaWindow("class description:=window","to_class:=JavaWindow").JavaMenu("tagname:=View","index:=2").JavaMenu("tagname:=Export as.*","index:=6").Select
+   If JavaWindow("class description:=window","to_class:=JavaWindow").JavaDialog("tagname:=Export Table as.*").Exist Then
+      If JavaWindow("class description:=window","to_class:=JavaWindow").JavaDialog("tagname:=Export Table as.*").JavaEdit("tagname:=File Name:","index:=0").Exist Then
+         JavaWindow("class description:=window","to_class:=JavaWindow").JavaDialog("tagname:=Export Table as.*").JavaEdit("tagname:=File Name:","index:=0").Set TestcaseIDName ' New Name to be given
+         If JavaWindow("class description:=window","to_class:=JavaWindow").JavaDialog("tagname:=Export Table as.*").JavaList("tagname:=Files of Type:","index:=1").Exist Then
+            JavaWindow("class description:=window","to_class:=JavaWindow").JavaDialog("tagname:=Export Table as.*").JavaList("tagname:=Files of Type:","index:=1").Select "Export Table as CSV (*.csv)"
+            If JavaWindow("class description:=window","to_class:=JavaWindow").JavaDialog("tagname:=Export Table as.*").JavaButton("tagname:=Save","index:=3").Exist Then
+               JavaWindow("class description:=window","to_class:=JavaWindow").JavaDialog("tagname:=Export Table as.*").JavaButton("tagname:=Save","index:=3").Click
+               If JavaWindow("class description:=window","to_class:=JavaWindow").JavaDialog("tagname:=Template chooser").Exist Then
+                  If JavaWindow("class description:=window","to_class:=JavaWindow").JavaDialog("tagname:=Template chooser").JavaButton("tagname:=Ok","index:=0").Exist Then
+                     JavaWindow("class description:=window","to_class:=JavaWindow").JavaDialog("tagname:=Template chooser").JavaButton("tagname:=Ok","index:=0").Click
+                     Set FileObject = CreateObject("Scripting.FileSystemObject")
+                         FileObject.MoveFile "C:\Users\deepika.pandey\Desktop\"&TestcaseIDName&".csv","C:\RIL_TTAF\Input\PMReports"  'New Path to be given
+                     Set FileObject = Nothing
+                  Else
+                      Call FailStesp("Java Button - OK does not exist")
+                  End If
+               Else
+                   Call Failsteps("Java Dialog - Template chooser does not exist")
+               End If
+            Else
+                Call FailSteps("Java Button - Save does not exist")
+            End If
+         Else
+             Call FailSteps("Java List - Files of type does not exist")
+         End If
+      Else
+          Call FailSteps("Java Edit - File Name does not exist")
+      End If
+   Else
+       Call FailSteps("Java Dialog - Export Table as does not exist")
+   End If
+Else
+    Call FailSteps("Java Menu - Export as does not exist")
+End If 
+
+End Function

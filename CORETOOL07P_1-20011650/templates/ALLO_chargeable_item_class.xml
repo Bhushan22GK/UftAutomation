@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+Template of the ALLO chargeable item class
+
+Use:
+This chargeable item class is used by SAP CRM to request the creation of allowances in SAP CC.
+
+Procedure:
+1 - Update the property ${catalog} with the name of the catalog in which you want to import this chargeable item class.
+Note: Only one ALLO chargeable item class can exist in a SAP CC system. It is not possible to import this chargeable item
+class in two different catalogs.
+2 - Import this template in SAP CC via the Core Tool (File > Import)
+3 - Build the charge creating the allowances on response of chargeable items of this class.
+
+Note:
+If you need to store the corresponding consumption items in SAP CI, you have to create the same consumption item class in SAP CI.
+
+-->
+<objectSet version="4.5.4.0">
+  <pnrObjectSet>
+	<chargeableItemClass id="ALLO" serviceProvider="${catalog}" description="Predefined chargeable item class, used by SAP CRM to create allowances in SAP CC">
+		<prop name="VTPOS" description="Contract: Item Number in Character Format" type="string" />
+		<prop name="VKONT" description="Contract Account Number" type="string" />
+		<prop name="RATE_BASEDATE" description="Baseline Date for Period Assignment in Rating" type="date" />
+		<prop name="RATE_FIRST" description="Target Date for Rating" type="date" />
+		<prop name="SIMULATED" description="Consumption Item Is Simulated" type="string" />
+		<prop name="ALLOW_START_DATE" description="Time Stamp of Consumption Date (ISO8601)" type="date" />
+		<prop name="ALLOW_DEF_ID" description="Id of the allowance definition" type="string" />
+	</chargeableItemClass>
+  </pnrObjectSet>
+</objectSet>

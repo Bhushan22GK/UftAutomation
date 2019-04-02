@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objectSet version="4.4.0.0">
+  <pnrObjectSet>
+    <mappingTableClass id="Price Table" description="Table used for recurring charges price synchronization" owner="${owner}">
+      <inColumn name="price.key" description="The Price Table price key">
+        <string/>
+      </inColumn>
+      <inColumn name="currency" description="The Price Table currency">
+        <currency/>
+      </inColumn>
+      <outColumn name="amount" description="Recurring charged amount">
+        <number/>
+      </outColumn>
+    </mappingTableClass>
+  </pnrObjectSet>
+</objectSet>

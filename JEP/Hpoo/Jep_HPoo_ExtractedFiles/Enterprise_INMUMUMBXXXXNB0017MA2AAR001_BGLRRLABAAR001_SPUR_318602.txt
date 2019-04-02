@@ -1,0 +1,45 @@
+vrf RJIL-ENT-PMJG-901900000359-SPOKE
+address-family ipv4 unicast
+export route-target
+64771:3100093390
+!
+!
+prefix-set RJIL-ENT-PMJG-901900000359-SPOKE-IPv4-IN
+116.50.76.228/30
+end-set
+!
+!
+router bgp 55836
+vrf RJIL-ENT-PMJG-901900000359-SPOKE
+rd 10.64.2.66:20146
+address-family IPV4 unicast
+redistribute connected
+!
+interface BVI5069
+bandwidth 1048576
+service-policy input RJIL-ENT-L3VPN
+mtu 9114
+vrf RJIL-ENT-PMJG-901900000359-SPOKE
+ip address 116.50.76.138 255.255.255.252
+load-interval 30
+!
+l2vpn
+pw-class RJIL-ENT-MPLS
+encapsulation mpls
+!
+bridge group RJIL-ENT
+bridge-domain RJIL-ENT-9190052328
+mtu 8500
+neighbor 10.64.2.85 pw-id 100074
+!
+pw-class RJIL-ENT-MPLS
+!
+!
+!
+!
+router static
+vrf RJIL-ENT-PMJG-901900000359-SPOKE
+address-family ipv4 unicast
+116.50.76.228/30 116.50.76.137 
+!
+commit

@@ -1,0 +1,42 @@
+configure qos shaper-profile "RJIL-ENT-VPN-9190052328-2135"
+bandwidth cir 1024 cbs 64000
+exit all
+configure qos policer-profile "RJIL-ENT-VPN-9190052328-2135"
+bandwidth cir 1024 cbs  64000 eir 0 ebs 0
+exit all
+configure qos queue-group-profile "RJIL-ENT-VPN-9190052328-2135"
+queue-block 0/4 
+shaper profile "RJIL-ENT-VPN-9190052328-2135"
+exit all
+configure port ethernet "13"
+queue-group profile "RJIL-ENT-VPN-9190052328-2135"
+exit all
+configure flow
+classifier-profile "v2135" match-any
+match vlan 2135
+exit all
+#=================Define 2135 VLAN for service===========================#
+conf flow
+flow "v2135eth13_in"
+classifier "v2135"
+policer profile "RJIL-ENT-VPN-9190052328-2135"
+mark all
+p-bit 0
+exit
+ingress-port ethernet 13
+egress-port bridge-port 1 13
+reverse-direction block 0/4 
+no shutdown
+exit all
+save
+#===========Defining Ring Configuration ===================
+configure protection
+erp 1 major
+vlan 2135
+queue-block east 0/1 west 0/1
+no shutdown
+exit
+no shutdown
+exit all
+save
+

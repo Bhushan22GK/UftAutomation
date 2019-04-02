@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<publicHolidays>
+
+  <holiday code="NewYearsDay">
+    <description lang="en" label="New Year's Day" />
+    <description lang="fr" label="Nouvel An" />
+    <group code="US" />
+    <group code="FR" />
+    <group code="DE" />
+    <group code="HR" />
+    <group code="BE" />
+    <group code="LU" />
+    <group code="CH" />
+    <fixedDay month="January" day="1" />
+  </holiday>
+  
+  <holiday code="SecondNewYearsDay">
+    <description lang="en" label="New Year's Second Day" />
+    <description lang="fr" label="Lendemain de Nouvel An" />
+    <group code="HR" />
+    <fixedDay month="January" day="2" />
+  </holiday>
+  
+  <holiday code="Epiphany">
+    <description lang="en" label="Epiphany" />
+    <description lang="fr" label="Epiphanie" />
+    <group code="HR" />
+    <fixedDay month="January" day="6" />
+  </holiday>
+  
+  <holiday code="MartinLutherKingDay">
+    <description lang="en" label="Martin Luther King Day" />
+    <description lang="fr" label="Comm&#xE9;moration de Martin Luther King" />
+    <group code="US" />
+    <relativeDay month="January" weekday="Monday" position="third" />
+  </holiday>
+  
+  <holiday code="PresidentsDay">
+    <description lang="en" label="Presidents' Day" />
+    <description lang="fr" label="Jour des pr&#xE9;sidents" />
+    <group code="US" />
+    <relativeDay month="February" weekday="Monday" position="third" />
+  </holiday>
+  
+  <holiday code="MissionaryDay">
+    <description lang="en" label="Missionary Day (French Polynesia)" />
+    <description lang="fr" label="Arriv&#xE9;e de l'Evangile (Polyn&#xE9;sie Fran&#xE7;aise)" />
+    <fixedDay month="March" day="5" />
+  </holiday>
+  
+  <holiday code="SaintJosephDay">
+    <description lang="en" label="Saint Joseph's Day" />
+    <description lang="fr" label="Saint Joseph" />
+    <group code="CH" />
+    <fixedDay month="March" day="19" />
+  </holiday>
+  
+  <holiday code="GoodFriday">
+    <description lang="en" label="Good Friday" />
+    <description lang="fr" label="Vendredi Saint" />
+    <group code="DE" />
+    <easterRelativeDay offset="-2" />
+  </holiday>
+  
+  <holiday code="EasterSunday">
+    <description lang="en" label="Easter Sunday" />
+    <description lang="fr" label="Dimanche de P&#xE2;ques" />
+    <group code="FR" />
+    <group code="HR" />
+    <easterRelativeDay offset="0" />
+  </holiday>
+  
+  <holiday code="EasterMonday">
+    <description lang="en" label="Easter Monday" />
+    <description lang="fr" label="Lundi de P&#xE2;ques" />
+    <group code="FR" />
+    <group code="DE" />
+    <group code="HR" />
+    <group code="BE" />
+    <group code="LU" />
+    <easterRelativeDay offset="1" />
+  </holiday>
+  
+  <holiday code="FRLaborsDay">
+    <description lang="en" label="Labor Day - First of May" />
+    <description lang="fr" label="F&#xEA;te du travail - 1er mai" />
+    <group code="FR" />
+    <group code="DE" />
+    <group code="HR" />
+    <group code="BE" />
+    <group code="LU" />
+    <fixedDay month="May" day="1" />
+  </holiday>
+  
+  <holiday code="MemorialDay">
+    <description lang="en" label="US Memorial Day" />
+    <description lang="fr" label="Jour du M&#xE9;morial (Etats-Unis)" />
+    <group code="US" />
+    <relativeDay month="May" weekday="Monday" position="last" />
+  </holiday>
+  
+  <holiday code="RemembranceDayWW2">
+    <description lang="en" label="Victory Day" />
+    <description lang="fr" label="Victoire 1945" />
+    <group code="FR" />
+    <fixedDay month="May" day="8" />
+  </holiday>
+  
+  <holiday code="HRMemorialDay">
+    <description lang="en" label="Croatian Memorial Day" />
+    <description lang="fr" label="Jour du M&#xE9;morial (Croatie)" />
+    <group code="HR" />
+    <fixedDay month="May" day="16" />
+  </holiday>
+  
+  <holiday code="ParliamentDay">
+    <description lang="en" label="Croatian Parliament Day" />
+    <description lang="fr" label="Jour du Parlement (Croatie)" />
+    <group code="HR" />
+    <fixedDay month="May" day="30" />
+  </holiday>
+  
+  <holiday code="Ascension">
+    <description lang="en" label="Ascension Day" />
+    <description lang="fr" label="Ascension" />
+    <group code="FR" />
+    <group code="DE" />
+    <group code="BE" />
+    <group code="LU" />
+    <group code="CH" />
+    <easterRelativeDay offset="39" />
+  </holiday>
+  
+  <holiday code="WhitSunday">
+    <description lang="en" label="Whit Sunday" />
+    <description lang="fr" label="Dimanche de Pentec&#xF4;te" />
+    <group code="FR" />
+    <group code="DE" />
+    <easterRelativeDay offset="49" />
+  </holiday>
+  
+  <holiday code="WhitMonday">
+    <description lang="en" label="Whit Monday" />
+    <description lang="fr" label="Lundi de Pentec&#xF4;te" />
+    <group code="FR" />
+    <group code="BE" />
+    <group code="LU" />
+    <easterRelativeDay offset="50" />
+  </holiday>
+  
+  <holiday code="CorpusChristi">
+    <description lang="en" label="Corpus Christi" />
+    <description lang="fr" label="F&#xEA;te-Dieu / Corpus Christi" />
+    <group code="HR" />
+    <group code="CH" />
+    <easterRelativeDay offset="60" />
+  </holiday>
+  
+  <holiday code="AntiFascistResistanceDay">
+    <description lang="en" label="Anti Fascist Resistance Day" />
+    <description lang="fr" label="F&#xEA;te de la Lutte contre le Fascisme" />
+    <group code="HR" />
+    <fixedDay month="June" day="22" />
+  </holiday>
+  
+  <holiday code="LUNationalDay">
+    <description lang="en" label="Luxembourg National Day" />
+    <description lang="fr" label="F&#xEA;te nationale luxembourgeoise" />
+    <group code="LU" />
+    <fixedDay month="June" day="23" />
+  </holiday>
+  
+  <holiday code="StatehoodDay">
+    <description lang="en" label="Statehood Day" />
+    <description lang="fr" label="F&#xEA;te nationale croate" />
+    <group code="HR" />
+    <fixedDay month="June" day="25" />
+  </holiday>
+  
+  <holiday code="InternalAutonomyDay">
+    <description lang="en" label="Internal Autonomy Day (French Polynesia)" />
+    <description lang="fr" label="F&#xEA;te de l'Autonomie interne (Polyn&#xE9;sie Fran&#xE7;aise)" />
+    <fixedDay month="June" day="29" />
+  </holiday>
+  
+  <holiday code="IndependenceDay">
+    <description lang="en" label="US Independence Day" />
+    <description lang="fr" label="F&#xEA;te de l'Ind&#xE9;pendance (Etats-Unis)" />
+    <group code="US" />
+    <fixedDay month="July" day="4" />
+  </holiday>
+  
+  <holiday code="BastilleDay">
+    <description lang="en" label="Bastille Day" />
+    <description lang="fr" label="14 juillet" />
+    <group code="FR" />
+    <fixedDay month="July" day="14" />
+  </holiday>
+  
+  <holiday code="BENationalHoliday">
+    <description lang="en" label="Belgium National Holiday" />
+    <description lang="fr" label="F&#xEA;te nationale belge" />
+    <group code="BE" />
+    <fixedDay month="July" day="21" />
+  </holiday>
+  
+  <holiday code="CHNationalDay">
+    <description lang="en" label="Swiss National Day" />
+    <description lang="fr" label="F&#xEA;te nationale suisse" />
+    <group code="CH" />
+    <fixedDay month="August" day="1" />
+  </holiday>
+  
+  <holiday code="VictoryAndHomelandGratitudeDay">
+    <description lang="en" label="Victory And Homeland Gratitude Day" />
+    <description lang="fr" label="Action de Gr&#xE2;ces pour la Patrie" />
+    <group code="HR" />
+    <fixedDay month="August" day="5" />
+  </holiday>
+  
+  <holiday code="Assumption">
+    <description lang="en" label="Assumption" />
+    <description lang="fr" label="Assomption" />
+    <group code="FR" />
+    <group code="HR" />
+    <group code="BE" />
+    <group code="LU" />
+    <group code="CH" />
+    <fixedDay month="August" day="15" />
+  </holiday>
+  
+  <holiday code="USLaborsDay">
+    <description lang="en" label="US Labor Day" />
+    <description lang="fr" label="F&#xEA;te du travail (Etats-Unis)" />
+    <group code="US" />
+    <relativeDay month="September" weekday="Monday" position="first" />
+  </holiday>
+  
+  <holiday code="ColumbusDay">
+    <description lang="en" label="Columbus Day" />
+    <description lang="fr" label="Jour de Christophe Colomb" />
+    <group code="US" />
+    <relativeDay month="October" weekday="Monday" position="second" />
+  </holiday>
+  
+  <holiday code="ReunionDay">
+    <description lang="en" label="Reunion Day" />
+    <description lang="fr" label="Jour de l'Unit&#xE9;" />
+    <group code="DE" />
+    <fixedDay month="October" day="3" />
+  </holiday>
+  
+  <holiday code="HRIndependenceDay">
+    <description lang="en" label="Croatian Independence Day" />
+    <description lang="fr" label="F&#xEA;te de l'Ind&#xE9;pendance (Croatie)" />
+    <group code="HR" />
+    <fixedDay month="October" day="8" />
+  </holiday>
+  
+  <holiday code="AllSaintsDay">
+    <description lang="en" label="All Saints' Day" />
+    <description lang="fr" label="Toussaint" />
+    <group code="FR" />
+    <group code="HR" />
+    <group code="BE" />
+    <group code="LU" />
+    <group code="CH" />
+    <fixedDay month="November" day="1" />
+  </holiday>
+  
+  <holiday code="RemembranceDayWW1">
+    <description lang="en" label="Armistice WW I" />
+    <description lang="fr" label="Armistice 1918" />
+    <group code="FR" />
+    <group code="BE" />
+    <fixedDay month="November" day="11" />
+  </holiday>
+  
+  <holiday code="VeteransDay">
+    <description lang="en" label="Veterans' Day" />
+    <description lang="fr" label="Journ&#xE9;e des anciens combattants" />
+    <group code="US" />
+    <fixedDay month="November" day="11" />
+  </holiday>
+  
+  <holiday code="Thanksgiving">
+    <description lang="en" label="Thanksgiving Day" />
+    <description lang="fr" label="Thanksgiving" />
+    <group code="US" />
+    <relativeDay month="November" weekday="Thursday" position="fourth" />
+  </holiday>
+  
+  <holiday code="ImmaculateConceptionDay">
+    <description lang="en" label="Immaculate Conception" />
+    <description lang="fr" label="Immacul&#xE9;e Conception" />
+    <group code="CH" />
+    <fixedDay month="December" day="8" />
+  </holiday>
+  
+  <holiday code="SlaveryAbolitionDay">
+    <description lang="en" label="Abolition of Slavery Day (Reunion Island)" />
+    <description lang="fr" label="Jour de l'abolition de l'esclavage (Ile de la R&#xE9;union)" />
+    <group code="FR" />
+    <fixedDay month="December" day="20" />
+  </holiday>
+  
+  <holiday code="ChristmasDay">
+    <description lang="en" label="Christmas Day" />
+    <description lang="fr" label="No&#xEB;l" />
+    <group code="US" />
+    <group code="FR" />
+    <group code="DE" />
+    <group code="HR" />
+    <group code="BE" />
+    <group code="LU" />
+    <group code="CH" />
+    <fixedDay month="December" day="25" />
+  </holiday>
+  
+  <holiday code="SecondChristmasDay">
+    <description lang="en" label="Second Christmas Day / Boxing Day" />
+    <description lang="fr" label="Saint-Etienne - Second jour de No&#xEB;l" />
+    <group code="DE" />
+    <group code="HR" />
+    <group code="LU" />
+    <fixedDay month="December" day="26" />
+  </holiday>
+  
+  <holiday code="ChineseNewYear">
+    <description lang="en" label="Chinese New Year" />
+    <description lang="fr" label="Nouvel An Chinois" />
+    <enumeratedDay>
+      <date value="1999-02-16" />
+      <date value="2000-01-05" />
+      <date value="2001-01-24" />
+      <date value="2002-01-12" />
+      <date value="2003-02-01" />
+      <date value="2004-01-22" />
+      <date value="2005-02-09" />
+      <date value="2006-01-29" />
+      <date value="2007-02-18" />
+      <date value="2008-02-07" />
+      <date value="2009-01-26" />
+      <date value="2010-02-14" />
+      <date value="2011-02-03" />
+      <date value="2012-01-23" />
+      <date value="2013-02-10" />
+      <date value="2014-01-31" />
+      <date value="2015-02-19" />
+      <date value="2016-02-08" />
+      <date value="2017-01-28" />
+      <date value="2018-02-16" />
+      <date value="2019-02-05" />
+      <date value="2020-01-25" />
+    </enumeratedDay>
+  </holiday>
+  
+  <groupDescription code="BE">
+    <description lang="en" label="Belgium" />
+    <description lang="fr" label="Belgique" />
+  </groupDescription>
+  
+  <groupDescription code="CH">
+    <description lang="en" label="Switzerland" />
+    <description lang="fr" label="Suisse" />
+  </groupDescription>
+  
+  <groupDescription code="DE">
+    <description lang="en" label="Germany" />
+    <description lang="fr" label="Allemagne" />
+  </groupDescription>
+  
+  <groupDescription code="FR">
+    <description lang="en" label="France" />
+    <description lang="fr" label="France" />
+  </groupDescription>
+  
+  <groupDescription code="HR">
+    <description lang="en" label="Croatia" />
+    <description lang="fr" label="Croatie" />
+  </groupDescription>
+  
+  <groupDescription code="LU">
+    <description lang="en" label="Luxembourg" />
+    <description lang="fr" label="Luxembourg" />
+  </groupDescription>
+  
+  <groupDescription code="US">
+    <description lang="en" label="United States" />
+    <description lang="fr" label="Etats-Unis" />
+  </groupDescription>
+  
+</publicHolidays>
